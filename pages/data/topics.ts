@@ -1,4 +1,4 @@
-// 全体のトピック配列
+export type TopicCategory = "logic" | "speaking" | "cooperation" | "comment"; // 例
 export const topics: string[] = [
     "都市部の交通渋滞を緩和するための施策を提案してください。",
     "高齢者の孤独死を防ぐ地域コミュニティの構築方法を考えてください。",

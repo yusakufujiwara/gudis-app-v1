@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { collection, getDocs, query, orderBy, addDoc, doc, getDoc, serverTimestamp } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { db } from "../lib/firebase";
+import type { Evaluation } from "../types/evaluation"; // ファイルパスは適宜調整
 
 type Evaluation = {
   evaluator: string;
@@ -12,13 +13,14 @@ type Evaluation = {
   cooperation?: number;
   comment?: string;
   createdAt?: { toDate: () => Date }; // Firestore Timestamp型
+  [key: string]: any; // その他のプロパティを許可
 };
 
 export default function EvaluationsPage() {
   const [evaluations, setEvaluations] = useState<Evaluation[]>([]); // 評価データ
   const [searchName, setSearchName] = useState(""); // 名前検索用の状態
-  const [filterField, setFilterField] = useState(""); // フィルタリングする評価項目
-  const [filterScore, setFilterScore] = useState(""); // フィルタリングするスコア
+  const [filterField, setFilterField] = useState<keyof Evaluation | "">("");
+  const [filterScore, setFilterScore] = useState<string>(""); // フィルタリングするスコア
   const [userName, setUserName] = useState(""); // Firestoreから取得したユーザー名
   const [logic, setLogic] = useState(0); // 論理性スコア
   const [speaking, setSpeaking] = useState(0); // 話し方スコア
@@ -90,12 +92,12 @@ export default function EvaluationsPage() {
 
   // 名前と評価項目・スコアでフィルタリング
   const filteredEvaluations = evaluations
-    .filter((e) =>
+    .filter((e: Evaluation) =>
       searchName === "" || (e.evaluator && e.evaluator.toLowerCase().includes(searchName.toLowerCase())) // 修正: searchNameが空の場合は全て通す
     )
-    .filter((e) => {
-      if (!filterField || !e[filterField]) return true; // フィルタ条件が未選択または該当項目が存在しない場合は全て表示
-      return String(e[filterField as keyof Evaluation]) === filterScore; // 評価項目とスコアでフィルタリング
+    .filter((e:Evaluation) => {
+      if (!filterField || !e[filterField as keyof typeof e]) return true;// フィルタ条件が未選択または該当項目が存在しない場合は全て表示
+      return e[filterField as keyof Evaluation] == filterScore;// 修正: filterFieldをkeyof Evaluationとして扱う
     });
 
   // 各評価項目の平均スコアを計算する関数
@@ -133,7 +135,7 @@ export default function EvaluationsPage() {
       <div style={{ marginBottom: "1rem" }}>
         <label>
           評価項目：
-          <select value={filterField} onChange={(e) => setFilterField(e.target.value)}>
+          <select value={filterField} onChange={(e) => setFilterField(e.target.value as keyof Evaluation)}>
             <option value="">-- 選択 --</option>
             <option value="logic">論理性</option>
             <option value="speaking">話し方</option>
