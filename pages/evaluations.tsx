@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { collection, getDocs, query, orderBy, addDoc, doc, getDoc, serverTimestamp } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { db } from "../lib/firebase";
-import type { Evaluation } from "../types/evaluation"; // ファイルパスは適宜調整
+import { Evaluation } from "../types/evaluation"; // ファイルパスは適宜調整
 
 type Evaluation = {
   evaluator: string;
@@ -13,7 +13,7 @@ type Evaluation = {
   cooperation?: number;
   comment?: string;
   createdAt?: { toDate: () => Date }; // Firestore Timestamp型
-  [key: string]: any; // その他のプロパティを許可
+  [key: string]: string | number; // その他のプロパティを許可
 };
 
 export default function EvaluationsPage() {
@@ -91,14 +91,14 @@ export default function EvaluationsPage() {
   };
 
   // 名前と評価項目・スコアでフィルタリング
-  const filteredEvaluations = evaluations
-    .filter((e: Evaluation) =>
-      searchName === "" || (e.evaluator && e.evaluator.toLowerCase().includes(searchName.toLowerCase())) // 修正: searchNameが空の場合は全て通す
-    )
-    .filter((e:Evaluation) => {
-      if (!filterField || !e[filterField as keyof typeof e]) return true;// フィルタ条件が未選択または該当項目が存在しない場合は全て表示
-      return e[filterField as keyof Evaluation] == filterScore;// 修正: filterFieldをkeyof Evaluationとして扱う
-    });
+const filteredEvaluations = evaluations
+.filter((e: Evaluation) =>
+  searchName === "" || (e.evaluator && e.evaluator.toLowerCase().includes(searchName.toLowerCase()))
+)
+.filter((e: Evaluation) => {
+  if (!filterField || !(filterField in e)) return true;
+  return String((e as Record<string, any>)[filterField]) === filterScore;
+});
 
   // 各評価項目の平均スコアを計算する関数
   const getAverage = (field: keyof Evaluation): number => {
