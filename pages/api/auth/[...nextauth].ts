@@ -10,4 +10,10 @@ export default NextAuth({
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET, // optional だけど書くとより安全
+  callbacks: {
+    async redirect({ url, baseUrl }) {
+        // Redirect to the home page after sign-in
+        return baseUrl;
+        }
+  }
 });
