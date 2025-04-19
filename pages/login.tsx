@@ -13,11 +13,10 @@ export default function LoginPage() {
   const [grade, setGrade] = useState('');
   const [graduationYear, setGraduationYear] = useState('');
   const [jobType, setJobType] = useState('');
-
-// ログイン状態に応じてリダイレクト
+// ログイン状態が確定してから処理
 useEffect(() => {
   if (status === 'authenticated') {
-    router.push('/profile'); // ログイン後にプロフィールページへ
+    router.push('/profile');
   }
 }, [status, router]);
 
@@ -44,6 +43,11 @@ const handleSubmit = async () => {
   }
 };
 
+// loading中の暫定表示
+if (status === "loading") {
+  return <div className="text-center mt-20">Loading...</div>;
+}
+
 return (
   <div className="flex flex-col items-center justify-center h-screen space-y-4">
     {session ? (
@@ -58,13 +62,13 @@ return (
           className="border px-2 py-1 rounded"
         />
         <input
-type="text"
-placeholder="大学"
-value={university}
-onChange={(e) => setUniversity(e.target.value)}
-className="border px-2 py-1 rounded"
-/>
-<input
+          type="text"
+          placeholder="大学"
+          value={university}
+          onChange={(e) => setUniversity(e.target.value)}
+          className="border px-2 py-1 rounded"
+        />
+        <input
 type="text"
 placeholder="性別"
 value={gender}
@@ -99,20 +103,20 @@ className="px-4 py-2 bg-green-500 text-white rounded"
 保存
 </button>
 <button
-            onClick={() => signOut()}
-            className="px-4 py-2 bg-red-500 text-white rounded"
-          >
-            ログアウト
-          </button>
-        </>
-      ) : (
-        <button
-          onClick={() => signIn('google')}
-          className="px-4 py-2 bg-blue-500 text-white rounded"
-        >
-          Googleでログイン
-        </button>
-      )}
-    </div>
-  );
+onClick={() => signOut()}
+className="px-4 py-2 bg-red-500 text-white rounded"
+>
+ログアウト
+</button>
+</>
+) : (
+<button
+onClick={() => signIn('google')}
+className="px-4 py-2 bg-blue-500 text-white rounded"
+>
+Googleでログイン
+</button>
+)}
+</div>
+);
 }
