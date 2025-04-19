@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { getRandomTopic, getAllCategories } from "./data/utils/getRandomTopic";
-import { TopicCategory, topics } from "./data/topics"; // topicsをインポート
+import { getRandomTopic, getAllCategories } from "../utils/getRandomTopic";
+import { TopicCategory, topics } from "../data/topics"; // topicsをインポート
 import { db } from "../lib/firebase";
 import {
   collection,

@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { getAuth } from "firebase/auth";
 import { addDoc, collection, serverTimestamp, doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../lib/firebase"; // パスは環境に合わせて
-import { topics } from "./data/topics"; // 議題データをインポート
+import { topics } from "../data/topics"; // 議題データをインポート
 
 const CreateRoomPage = () => {
   const router = useRouter();

@@ -2,18 +2,17 @@ import React, { useEffect, useState } from "react";
 import { collection, getDocs, query, orderBy, addDoc, doc, getDoc, serverTimestamp } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { db } from "../lib/firebase";
-import { Evaluation } from "../types/evaluation"; // ファイルパスは適宜調整
 
 type Evaluation = {
   evaluator: string;
-  target: string;
-  score: number;
+  target?: string;
+  score?: number;
   logic?: number;
   speaking?: number;
   cooperation?: number;
   comment?: string;
   createdAt?: { toDate: () => Date }; // Firestore Timestamp型
-  [key: string]: string | number; // その他のプロパティを許可
+  [key: string]: any; // その他のプロパティを許可
 };
 
 export default function EvaluationsPage() {

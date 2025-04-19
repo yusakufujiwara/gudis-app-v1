@@ -1,4 +1,4 @@
-import { topics, categorizedTopics } from "../../data/topics";
+import { topics, categorizedTopics } from "../data/topics";
 
 // ランダムに1つ議題を返す関数
 export function getRandomTopic(category?: string): string {
