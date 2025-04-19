@@ -4,7 +4,7 @@ import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth"; //
 
 const firebaseConfig = {
   apiKey: "AIzaSyCLvnwSVwUi3dUTu3HIUyU4upkY2N_6NiY",
-  authDomain: "gudis-app.firebaseapp.com",
+  authDomain: "gudis-app-v1.vercel.app",
   projectId: "gudis-app",
   storageBucket: "gudis-app.appspot.com",
   messagingSenderId: "145573130822",
