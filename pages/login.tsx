@@ -3,11 +3,11 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useSession, signIn, signOut } from 'next-auth/react';
-import { db } from "@/lib/firebase";
+import { db } from "../lib/firebase";
 import { doc, setDoc } from "firebase/firestore";
 
 export default function LoginPage() {
-  const { data: session, status } = useSession();
+  const { data: session, status } = useSession() ?? {};
   const router = useRouter();
   const [name, setName] = useState('');
   const [university, setUniversity] = useState('');
