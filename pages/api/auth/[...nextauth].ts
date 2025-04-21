@@ -1,4 +1,3 @@
-// pages/api/auth/[...nextauth].ts
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
@@ -9,11 +8,10 @@ export default NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
   ],
-  secret: process.env.NEXTAUTH_SECRET, // optional だけど書くとより安全
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    async redirect({ url, baseUrl }) {
-        // Redirect to the home page after sign-in
-        return baseUrl;
-        }
-  }
+    async redirect({ baseUrl }) {
+      return baseUrl;
+    },
+  },
 });
