@@ -10,8 +10,8 @@ export default NextAuth({
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    async redirect({ baseUrl }) {
-      return baseUrl;
+    async redirect({ url, baseUrl }) {
+      return baseUrl; // これで "/" にリダイレクトされる
     },
   },
 });
