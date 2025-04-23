@@ -41,11 +41,11 @@ export default function HomePage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
       <div className="bg-white rounded-lg shadow-md p-8 max-w-md w-full text-center">
-        <h1 className="text-2xl font-bold mb-4">グルディスオンライン</h1>
+        <h1 className="text-2xl font-bold mb-4">Gudis App</h1>
         <p className="text-gray-600 mb-6 text-sm">
-          全国各地の就活生と切磋琢磨しよう<br />
-          ライバル、仲間を見つけよう
-        </p>
+        Gudis Appは、就活生がオンラインでグループディスカッション（グルディス）の練習を行うためのプラットフォームです。
+          ルームマッチング・タイマー・評価機能を通じて、仲間と切磋琢磨しながらスキルアップできます。
+       </p>
 
         {/* ログイン状態で分岐 */}
         {session ? (
@@ -75,9 +75,14 @@ export default function HomePage() {
 
         {/* 利用規約へのボタン */}
         <Link href="/terms">
-          <button className="mt-2 text-sm text-gray-600 underline hover:text-gray-800">
+          <a className="text-sm text-gray-600 underline hover:text-gray-800">
             利用規約を読む
-          </button>
+          </a>
+        </Link>
+        <Link href="/privacy">
+          <a className="text-sm text-gray-600 underline hover:text-gray-800">
+            プライバシーポリシーを読む
+          </a>
         </Link>
       </div>
     </div>
