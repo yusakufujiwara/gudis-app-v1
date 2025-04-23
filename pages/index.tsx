@@ -41,7 +41,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
       <div className="bg-white rounded-lg shadow-md p-8 max-w-md w-full text-center">
-        <h1 className="text-2xl font-bold mb-4">Gudis App</h1>
+        <h1 className="text-2xl font-bold mb-4">Gudis Online</h1>
         <p className="text-gray-600 mb-6 text-sm">
         Gudis Appは、就活生がオンラインでグループディスカッション（グルディス）の練習を行うためのプラットフォームです。
           ルームマッチング・タイマー・評価機能を通じて、仲間と切磋琢磨しながらスキルアップできます。
