@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { db } from "../lib/firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/router";
 
 export default function ProfilePage() {
@@ -16,30 +16,33 @@ export default function ProfilePage() {
 
   useEffect(() => {
     const auth = getAuth();
-    const user = auth.currentUser;
-
-    if (!user) {
-      router.push("/login");
-      return;
-    }
-
-    const fetchProfile = async () => {
-      const docRef = doc(db, "users", user.uid);
-      const docSnap = await getDoc(docRef);
-
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        setName(data.name || "");
-        setUniversity(data.university || "");
-        setGender(data.gender || "");
-        setGrade(data.grade || "");
-        setGraduationYear(data.graduationYear || "");
-        setDesiredJob(data.desiredJob || "");
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        router.push("/"); // ログインしていなければホームへリダイレクト
+        return;
       }
-      setLoading(false);
-    };
 
-    fetchProfile();
+      try {
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          setName(data.name || "");
+          setUniversity(data.university || "");
+          setGender(data.gender || "");
+          setGrade(data.grade || "");
+          setGraduationYear(data.graduationYear || "");
+          setDesiredJob(data.desiredJob || "");
+        }
+      } catch (err) {
+        console.error("プロフィール取得エラー:", err);
+      }
+
+      setLoading(false);
+    });
+
+    return () => unsubscribe(); // クリーンアップ
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -79,8 +82,6 @@ export default function ProfilePage() {
         <h2 className="text-center text-lg font-semibold mb-6">プロフィール登録</h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* フォーム項目たち */}
-          {/* name, university, etc... */}
           <label className="block">
             <span className="text-sm text-gray-700">お名前</span>
             <input
@@ -91,7 +92,7 @@ export default function ProfilePage() {
               required
             />
           </label>
-{/* 他のフォームは省略せず、すべて今のままでOK */}
+{/* 以下、省略せずに university〜desiredJob 全部同じように入れてください */}
 
 <button
             type="submit"
