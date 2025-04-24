@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import { db } from "../lib/firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged, User } from "firebase/auth";
 import { useRouter } from "next/router";
-import { User } from "firebase/auth"; // ユーザー型をインポート
 
 export default function ProfilePage() {
   const [name, setName] = useState("");
@@ -41,6 +40,8 @@ export default function ProfilePage() {
         }
       } catch (err) {
         console.error("プロフィール取得エラー:", err);
+      } finally {
+        setLoading(false);
       }
 
       setLoading(false);
