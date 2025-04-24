@@ -3,6 +3,7 @@ import { db } from "../lib/firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/router";
+import { User } from "firebase/auth"; // ユーザー型をインポート
 
 export default function ProfilePage() {
   const [name, setName] = useState("");
@@ -12,6 +13,7 @@ export default function ProfilePage() {
   const [graduationYear, setGraduationYear] = useState("");
   const [desiredJob, setDesiredJob] = useState("");
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<User | null>(null); // ユーザー情報を格納する状態
   const router = useRouter();
 
   useEffect(() => {
@@ -21,6 +23,8 @@ export default function ProfilePage() {
         router.push("/"); // ログインしていなければホームへリダイレクト
         return;
       }
+
+      setUser(user);
 
       try {
         const docRef = doc(db, "users", user.uid);

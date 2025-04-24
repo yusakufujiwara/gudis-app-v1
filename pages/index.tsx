@@ -72,17 +72,17 @@ export default function HomePage() {
 
         {/* 利用規約 & プライバシーポリシー */}
         <div className="flex flex-col space-y-1 mt-2">
-          <Link href="/terms">
-            <a className="text-sm text-gray-600 underline hover:text-gray-800">
-              利用規約を読む
-              </a>
-          </Link>
-          <Link href="/privacy">
-            <a className="text-sm text-gray-600 underline hover:text-gray-800">
-              プライバシーポリシーを読む
-            </a>
-          </Link>
-        </div>
+  <Link href="/terms" legacyBehavior>
+    <a className="text-sm text-gray-600 underline hover:text-gray-800">
+      利用規約を読む
+    </a>
+  </Link>
+  <Link href="/privacy" legacyBehavior>
+    <a className="text-sm text-gray-600 underline hover:text-gray-800">
+      プライバシーポリシーを読む
+    </a>
+  </Link>
+</div>
       </div>
     </div>
   );
