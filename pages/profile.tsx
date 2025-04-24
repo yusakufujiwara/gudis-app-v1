@@ -12,17 +12,19 @@ export default function ProfilePage() {
   const [graduationYear, setGraduationYear] = useState("");
   const [desiredJob, setDesiredJob] = useState("");
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState<User | null>(null); // ユーザー情報を格納する状態
+  const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
 
   useEffect(() => {
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (!user) {
-        router.push("/"); // ログインしていなければホームへリダイレクト
+        console.log("ユーザーが未ログインです");
+        router.push("/");
         return;
       }
 
+      console.log("ログインユーザー:", user.email);
       setUser(user);
 
       try {
@@ -43,18 +45,13 @@ export default function ProfilePage() {
       } finally {
         setLoading(false);
       }
-
-      setLoading(false);
     });
 
-    return () => unsubscribe(); // クリーンアップ
+    return () => unsubscribe();
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const auth = getAuth();
-    const user = auth.currentUser;
-
     if (!user) {
       alert("ログインしていません");
       return;
@@ -85,7 +82,6 @@ export default function ProfilePage() {
     <div className="flex items-center justify-center min-h-screen bg-gray-50">
       <div className="bg-white p-6 rounded-md shadow-md w-full max-w-sm">
         <h2 className="text-center text-lg font-semibold mb-6">プロフィール登録</h2>
-
         <form onSubmit={handleSubmit} className="space-y-4">
           <label className="block">
             <span className="text-sm text-gray-700">お名前</span>
@@ -97,14 +93,13 @@ export default function ProfilePage() {
               required
             />
           </label>
-{/* 以下、省略せずに university〜desiredJob 全部同じように入れてください */}
-
-<button
+          {/* university〜desiredJob も同様に配置 */}
+          <button
             type="submit"
             className="w-full mt-4 bg-gray-200 hover:bg-gray-300 text-black font-medium py-2 rounded"
           >
             保存する
-          </button>
+            </button>
         </form>
       </div>
     </div>
